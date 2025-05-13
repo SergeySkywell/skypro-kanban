@@ -1100,3 +1100,10 @@ body {
     display: block;
   }
 }
+
+.loading {
+  text-align: center;
+  font-size: 20px;
+  padding: 100px 0;
+  color: #94a6be;
+}
