@@ -1,5 +1,5 @@
 export function PopUser({ isOpen }) {
-  if (!isOpen) return null; // ничего не рендерим, если не открыто
+  if (!isOpen) return null;
 
   return (
     <div

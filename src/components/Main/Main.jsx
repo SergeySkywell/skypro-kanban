@@ -1,55 +1,77 @@
 import Column from "./Column";
+import { cardList } from "../../data";
 import Card from "./Card";
 
 export default function Main() {
+  const noStatus = cardList.filter((card) => card.status === "Без статуса");
+  const toDo = cardList.filter((card) => card.status === "Нужно сделать");
+  const inProgress = cardList.filter((card) => card.status === "В работе");
+  const testing = cardList.filter((card) => card.status === "Тестирование");
+  const done = cardList.filter((card) => card.status === "Готово");
+
   return (
     <main className="main">
       <div className="container">
         <div className="main__block">
           <div className="main__content">
             <Column title="Без статуса">
-              <Card
-                title="Название задачи"
-                category="Web Design"
-                date="30.10.23"
-                theme="_orange"
-              />
+              {noStatus.map((card) => (
+                <Card
+                  key={card.id}
+                  title={card.title}
+                  category={card.topic}
+                  date={card.date}
+                  theme={card.theme}
+                />
+              ))}
             </Column>
 
             <Column title="Нужно сделать">
-              <Card
-                title="Название задачи"
-                category="Research"
-                date="30.10.23"
-                theme="_green"
-              />
+              {toDo.map((card) => (
+                <Card
+                  key={card.id}
+                  title={card.title}
+                  category={card.topic}
+                  date={card.date}
+                  theme={card.theme}
+                />
+              ))}
             </Column>
 
             <Column title="В работе">
-              <Card
-                title="Название задачи"
-                category="Copywriting"
-                date="30.10.23"
-                theme="_purple"
-              />
+              {inProgress.map((card) => (
+                <Card
+                  key={card.id}
+                  title={card.title}
+                  category={card.topic}
+                  date={card.date}
+                  theme={card.theme}
+                />
+              ))}
             </Column>
 
             <Column title="Тестирование">
-              <Card
-                title="Название задачи"
-                category="Web Design"
-                date="30.10.23"
-                theme="_orange"
-              />
+              {testing.map((card) => (
+                <Card
+                  key={card.id}
+                  title={card.title}
+                  category={card.topic}
+                  date={card.date}
+                  theme={card.theme}
+                />
+              ))}
             </Column>
 
             <Column title="Готово">
-              <Card
-                title="Название задачи"
-                category="Research"
-                date="30.10.23"
-                theme="_green"
-              />
+              {done.map((card) => (
+                <Card
+                  key={card.id}
+                  title={card.title}
+                  category={card.topic}
+                  date={card.date}
+                  theme={card.theme}
+                />
+              ))}
             </Column>
           </div>
         </div>
