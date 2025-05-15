@@ -1,9 +1,9 @@
-import Column from "./Column";
+import { Column } from "./Column";
 import { cardList } from "../../data";
-import Card from "./Card";
+import { Card } from "./Card";
 import { useState, useEffect } from "react";
 
-export default function Main() {
+export function Main() {
   const noStatus = cardList.filter((card) => card.status === "Без статуса");
   const toDo = cardList.filter((card) => card.status === "Нужно сделать");
   const inProgress = cardList.filter((card) => card.status === "В работе");

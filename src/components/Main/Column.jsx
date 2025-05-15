@@ -1,4 +1,4 @@
-function Column({ title, children }) {
+export function Column({ title, children }) {
   return (
     <div className="main__column column">
       <div className="column__title">
@@ -8,5 +8,3 @@ function Column({ title, children }) {
     </div>
   );
 }
-
-export default Column;

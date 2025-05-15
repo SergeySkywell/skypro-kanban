@@ -1,4 +1,4 @@
-function Card({ title, category, date, theme }) {
+export function Card({ title, category, date, theme }) {
   return (
     <div className="cards__item">
       <div className="cards__card card">
@@ -54,5 +54,3 @@ function Card({ title, category, date, theme }) {
     </div>
   );
 }
-
-export default Card;

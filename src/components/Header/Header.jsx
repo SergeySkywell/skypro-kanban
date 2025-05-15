@@ -1,7 +1,7 @@
 import { PopUser } from "../popups/PopUser/PopUser";
 import { useState } from "react";
 
-export default function Header() {
+export function Header() {
   const [isUserOpen, setIsUserOpen] = useState(false);
 
   return (
