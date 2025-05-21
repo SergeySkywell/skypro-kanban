@@ -1,7 +1,7 @@
 export const cardList = [
   {
     id: 1,
-    theme: "_orange",
+    theme: "orange",
     topic: "Web Design",
     title: "Название задачи",
     date: "30.10.23",
@@ -9,7 +9,7 @@ export const cardList = [
   },
   {
     id: 2,
-    theme: "_green",
+    theme: "green",
     topic: "Research",
     title: "Название задачи",
     date: "30.10.23",
@@ -17,7 +17,7 @@ export const cardList = [
   },
   {
     id: 3,
-    theme: "_orange",
+    theme: "orange",
     topic: "Web Design",
     title: "Название задачи",
     date: "30.10.23",
@@ -25,7 +25,7 @@ export const cardList = [
   },
   {
     id: 4,
-    theme: "_purple",
+    theme: "purple",
     topic: "Copywriting",
     title: "Название задачи",
     date: "30.10.23",
@@ -33,7 +33,7 @@ export const cardList = [
   },
   {
     id: 5,
-    theme: "_orange",
+    theme: "orange",
     topic: "Web Design",
     title: "Название задачи",
     date: "30.10.23",
@@ -41,7 +41,7 @@ export const cardList = [
   },
   {
     id: 6,
-    theme: "_green",
+    theme: "green",
     topic: "Research",
     title: "Название задачи",
     date: "30.10.23",
@@ -49,7 +49,7 @@ export const cardList = [
   },
   {
     id: 7,
-    theme: "_green",
+    theme: "green",
     topic: "Research",
     title: "Название задачи",
     date: "30.10.23",
@@ -57,7 +57,7 @@ export const cardList = [
   },
   {
     id: 8,
-    theme: "_purple",
+    theme: "purple",
     topic: "Copywriting",
     title: "Название задачи",
     date: "30.10.23",
@@ -65,7 +65,7 @@ export const cardList = [
   },
   {
     id: 9,
-    theme: "_orange",
+    theme: "orange",
     topic: "Web Design",
     title: "Название задачи",
     date: "30.10.23",
@@ -73,7 +73,7 @@ export const cardList = [
   },
   {
     id: 10,
-    theme: "_green",
+    theme: "green",
     topic: "Research",
     title: "Название задачи",
     date: "30.10.23",
@@ -81,7 +81,7 @@ export const cardList = [
   },
   {
     id: 11,
-    theme: "_green",
+    theme: "green",
     topic: "Research",
     title: "Название задачи",
     date: "30.10.23",
