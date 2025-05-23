@@ -16,7 +16,7 @@ export function Card({ title, category, date, theme }) {
     <CardsItem>
       <StyledCard>
         <CardGroup>
-          <CardTheme themeColor={theme}>
+          <CardTheme $themeColor={theme}>
             <CardThemeText $color={theme}>{category}</CardThemeText>
           </CardTheme>
 

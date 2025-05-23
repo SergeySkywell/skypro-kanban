@@ -2,6 +2,7 @@ import { Column } from "./Column";
 import { cardList } from "../../data";
 import { Card } from "./Card";
 import { useState, useEffect } from "react";
+import { Container } from "../ui/Container.styled";
 
 export function Main() {
   const noStatus = cardList.filter((card) => card.status === "Без статуса");
@@ -26,7 +27,7 @@ export function Main() {
         </main>
       ) : (
         <main className="main">
-          <div className="container">
+          <Container>
             <div className="main__block">
               <div className="main__content">
                 <Column title="Без статуса">
@@ -90,7 +91,7 @@ export function Main() {
                 </Column>
               </div>
             </div>
-          </div>
+          </Container>
         </main>
       )}
     </>

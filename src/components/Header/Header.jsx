@@ -1,41 +1,48 @@
 import { PopUser } from "../popups/PopUser/PopUser";
 import { useState } from "react";
+import {
+  DarkLogo,
+  HeaderBlock,
+  HeaderButton,
+  HeaderNav,
+  HeaderPopUserSet,
+  HeaderUser,
+  LogoWrapper,
+  StyledHeader,
+} from "./Header.styled";
+import { Container } from "../ui/Container.styled";
 
 export function Header() {
   const [isUserOpen, setIsUserOpen] = useState(false);
 
   return (
-    <header className="header">
-      <div className="container">
-        <div className="header__block">
-          <div className="header__logo _show _light">
-            <a href="" target="_self">
+    <StyledHeader>
+      <Container>
+        <HeaderBlock>
+          <LogoWrapper>
+            <a href="">
               <img src="images/logo.png" alt="logo" />
             </a>
-          </div>
-          <div className="header__logo _dark">
-            <a href="" target="_self">
+          </LogoWrapper>
+
+          <DarkLogo>
+            <a href="">
               <img src="images/logo_dark.png" alt="logo" />
             </a>
-          </div>
-          <nav className="header__nav">
-            <button className="header__btn-main-new _hover01" id="btnMainNew">
+          </DarkLogo>
+
+          <HeaderNav>
+            <HeaderButton id="btnMainNew">
               <a href="#popNewCard">Создать новую задачу</a>
-            </button>
-            <span
-              className="header__user _hover02"
-              onClick={() => setIsUserOpen((prev) => !prev)}
-            >
+            </HeaderButton>
+            <HeaderUser onClick={() => setIsUserOpen((prev) => !prev)}>
               Ivan Ivanov
-            </span>
-            <div
-              className="header__pop-user-set pop-user-set"
-              id="user-set-target"
-            ></div>
+            </HeaderUser>
+            <HeaderPopUserSet id="user-set-target"></HeaderPopUserSet>
             <PopUser isOpen={isUserOpen} />
-          </nav>
-        </div>
-      </div>
-    </header>
+          </HeaderNav>
+        </HeaderBlock>
+      </Container>
+    </StyledHeader>
   );
 }

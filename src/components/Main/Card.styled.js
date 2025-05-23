@@ -48,13 +48,13 @@ export const CardTheme = styled.div`
   height: 20px;
   padding: 5px 14px;
   border-radius: 18px;
-  background-color: ${({ themeColor }) =>
-    themeColor === "orange"
-      ? "rgba(255, 109, 0, 0.3)"
-      : themeColor === "green"
-      ? "rgba(6, 177, 110, 0.3)"
-      : themeColor === "purple"
-      ? "rgba(154, 72, 241, 0.3)"
+  background-color: ${({ $themeColor }) =>
+    $themeColor === "orange"
+      ? "rgba(255, 228, 194, 1)"
+      : $themeColor === "green"
+      ? "rgba(180, 253, 209, 1)"
+      : $themeColor === "purple"
+      ? "rgba(233, 212, 255, 1)"
       : "#e0e0e0"};
 `;
 
