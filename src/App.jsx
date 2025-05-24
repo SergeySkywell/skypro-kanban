@@ -4,18 +4,19 @@ import { PopExit } from "./components/popups/PopExit/PopExit";
 import { PopNewCard } from "./components/popups/PopNewCard/PopNewCard";
 import { Header } from "./components/Header/Header";
 import { Main } from "./components/Main/Main";
+import { Wrapper } from "./components/ui/Wrapper.styled";
 
 function App() {
   return (
-    <div className="app">
-      <div className="wrapper">
+    <>
+      <Wrapper>
         <PopExit />
         <PopNewCard />
         <PopBrowse />
         <Header />
         <Main />
-      </div>
-    </div>
+      </Wrapper>
+    </>
   );
 }
 

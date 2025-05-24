@@ -33,14 +33,6 @@ body {
   color: #000000;
 }
 
-.wrapper {
-  max-width: 100%;
-  width: 100vw;
-  min-height: 100vh;
-  overflow: hidden;
-  background-color: #f1f1f1;
-}
-
 ._hover01:hover {
   background-color: #33399b;
 }
