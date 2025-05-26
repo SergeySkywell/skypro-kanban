@@ -3,6 +3,7 @@ import { cardList } from "../../data";
 import { Card } from "./Card";
 import { useState, useEffect } from "react";
 import { Container } from "../ui/Container.styled";
+import { Loading, MainBlock, MainContent, MainStyled } from "./Main.styled";
 
 export function Main() {
   const noStatus = cardList.filter((card) => card.status === "Без статуса");
@@ -22,14 +23,14 @@ export function Main() {
   return (
     <>
       {isLoading ? (
-        <main className="main">
-          <div className="loading">Данные загружаются...</div>
-        </main>
+        <MainStyled>
+          <Loading>Данные загружаются...</Loading>
+        </MainStyled>
       ) : (
-        <main className="main">
+        <MainStyled>
           <Container>
-            <div className="main__block">
-              <div className="main__content">
+            <MainBlock>
+              <MainContent>
                 <Column title="Без статуса">
                   {noStatus.map((card) => (
                     <Card
@@ -89,10 +90,10 @@ export function Main() {
                     />
                   ))}
                 </Column>
-              </div>
-            </div>
+              </MainContent>
+            </MainBlock>
           </Container>
-        </main>
+        </MainStyled>
       )}
     </>
   );
