@@ -1,6 +1,6 @@
-import { Calendar } from "../../Calendar/Calendar";
+import { Calendar } from "../components/Calendar/Calendar";
 
-export function PopBrowse() {
+export function CardPage() {
   return (
     <div className="pop-browse" id="popBrowse">
       <div className="pop-browse__container">

@@ -6,9 +6,9 @@ import {
   PopExitStyled,
   PopExitTitle,
   PopExitYes,
-} from "./PopExit.Styled";
+} from "./LogOutPage.Styled";
 
-export function PopExit() {
+export function LogOutPage() {
   return (
     <PopExitStyled id="popExit">
       <PopExitContainer>

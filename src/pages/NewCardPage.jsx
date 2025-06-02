@@ -1,4 +1,4 @@
-import { Calendar } from "../../Calendar/Calendar";
+import { Calendar } from "../components/Calendar/Calendar";
 
 export function PopNewCard() {
   return (

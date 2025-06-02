@@ -3,9 +3,14 @@ import { cardList } from "../../data";
 import { Card } from "./Card";
 import { useState, useEffect } from "react";
 import { Container } from "../ui/Container.styled";
-import { Loading, MainBlock, MainContent, MainStyled } from "./Main.styled";
+import {
+  Loading,
+  MainBlock,
+  MainContent,
+  MainStyled,
+} from "../Main/Content.styled";
 
-export function Main() {
+export function Content() {
   const noStatus = cardList.filter((card) => card.status === "Без статуса");
   const toDo = cardList.filter((card) => card.status === "Нужно сделать");
   const inProgress = cardList.filter((card) => card.status === "В работе");
