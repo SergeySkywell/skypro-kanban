@@ -21,13 +21,13 @@ export function Header() {
         <HeaderBlock>
           <LogoWrapper>
             <a href="">
-              <img src="images/logo.png" alt="logo" />
+              <img src="/images/logo.png" alt="logo" />
             </a>
           </LogoWrapper>
 
           <DarkLogo>
             <a href="">
-              <img src="images/logo_dark.png" alt="logo" />
+              <img src="/images/logo_dark.png" alt="logo" />
             </a>
           </DarkLogo>
 
