@@ -6,9 +6,7 @@ import {
   PopUserSetTheme,
 } from "./PopUser.styled";
 
-export function PopUser({ isOpen }) {
-  if (!isOpen) return null;
-
+export function PopUser() {
   return (
     <PopUserSet>
       <PopUserSetName>Ivan Ivanov</PopUserSetName>

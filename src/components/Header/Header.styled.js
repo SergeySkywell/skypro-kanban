@@ -92,7 +92,6 @@ export const HeaderUser = styled.span`
 `;
 
 export const HeaderPopUserSet = styled.div`
-  display: none;
   position: absolute;
   top: 61px;
   right: 0;
@@ -105,10 +104,6 @@ export const HeaderPopUserSet = styled.div`
   padding: 34px;
   text-align: center;
   z-index: 2;
-
-  &:target {
-    display: block;
-  }
 
   button {
     color: #565eef;

@@ -38,8 +38,11 @@ export function Header() {
             <HeaderUser onClick={() => setIsUserOpen((prev) => !prev)}>
               Ivan Ivanov
             </HeaderUser>
-            <HeaderPopUserSet id="user-set-target"></HeaderPopUserSet>
-            <PopUser isOpen={isUserOpen} />
+            {isUserOpen && (
+              <HeaderPopUserSet id="user-set-target">
+                <PopUser />
+              </HeaderPopUserSet>
+            )}
           </HeaderNav>
         </HeaderBlock>
       </Container>
