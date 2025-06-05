@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   CardButton,
   CardContent,
@@ -20,13 +21,13 @@ export function Card({ title, category, date, theme }) {
             <CardThemeText $color={theme}>{category}</CardThemeText>
           </CardTheme>
 
-          <a href="#popBrowse" target="_self">
+          <Link to={"/card/" + Card.id}>
             <CardButton>
               <div></div>
               <div></div>
               <div></div>
             </CardButton>
-          </a>
+          </Link>
         </CardGroup>
         <CardContent>
           <a href="" target="_blank">
