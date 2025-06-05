@@ -55,8 +55,8 @@ body {
   color: #ffffff;
 }
 
-.pop-new-card:target,
-.pop-browse:target {
+.pop-new-card,
+.pop-browse {
   display: block;
 }
 
