@@ -12,7 +12,7 @@ import {
   StyledCard,
 } from "./Card.styled";
 
-export function Card({ title, category, date, theme }) {
+export function Card({ id, title, category, date, theme }) {
   return (
     <CardsItem>
       <StyledCard>
@@ -21,7 +21,7 @@ export function Card({ title, category, date, theme }) {
             <CardThemeText $color={theme}>{category}</CardThemeText>
           </CardTheme>
 
-          <Link to={"/card/" + Card?.id}>
+          <Link to={`/card/${id}`}>
             <CardButton>
               <div></div>
               <div></div>
