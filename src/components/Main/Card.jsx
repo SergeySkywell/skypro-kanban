@@ -21,7 +21,7 @@ export function Card({ title, category, date, theme }) {
             <CardThemeText $color={theme}>{category}</CardThemeText>
           </CardTheme>
 
-          <Link to={"/card/" + Card.id}>
+          <Link to={"/card/" + Card?.id}>
             <CardButton>
               <div></div>
               <div></div>
