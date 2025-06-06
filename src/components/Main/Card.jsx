@@ -31,9 +31,7 @@ export function Card({ id, title, category, date, theme }) {
         </CardGroup>
         <CardContent>
           <Link to={`/card/${id}`}>
-            <a>
-              <CardTitle>{title}</CardTitle>
-            </a>
+            <CardTitle>{title}</CardTitle>
           </Link>
           <CardDate>
             <svg

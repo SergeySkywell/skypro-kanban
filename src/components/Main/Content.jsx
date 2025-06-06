@@ -39,6 +39,7 @@ export function Content() {
                 <Column title="Без статуса">
                   {noStatus.map((card) => (
                     <Card
+                      key={card.id}
                       id={card.id}
                       title={card.title}
                       category={card.topic}
@@ -51,6 +52,7 @@ export function Content() {
                 <Column title="Нужно сделать">
                   {toDo.map((card) => (
                     <Card
+                      key={card.id}
                       id={card.id}
                       title={card.title}
                       category={card.topic}
@@ -63,6 +65,7 @@ export function Content() {
                 <Column title="В работе">
                   {inProgress.map((card) => (
                     <Card
+                      key={card.id}
                       id={card.id}
                       title={card.title}
                       category={card.topic}
@@ -75,6 +78,7 @@ export function Content() {
                 <Column title="Тестирование">
                   {testing.map((card) => (
                     <Card
+                      key={card.id}
                       id={card.id}
                       title={card.title}
                       category={card.topic}
@@ -87,6 +91,7 @@ export function Content() {
                 <Column title="Готово">
                   {done.map((card) => (
                     <Card
+                      key={card.id}
                       id={card.id}
                       title={card.title}
                       category={card.topic}
