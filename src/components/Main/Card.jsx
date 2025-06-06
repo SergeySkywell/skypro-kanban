@@ -30,9 +30,11 @@ export function Card({ id, title, category, date, theme }) {
           </Link>
         </CardGroup>
         <CardContent>
-          <a href="" target="_blank">
-            <CardTitle>{title}</CardTitle>
-          </a>
+          <Link to={`/card/${id}`}>
+            <a>
+              <CardTitle>{title}</CardTitle>
+            </a>
+          </Link>
           <CardDate>
             <svg
               xmlns="http://www.w3.org/2000/svg"
