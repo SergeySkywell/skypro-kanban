@@ -1,39 +1,62 @@
 import { Calendar } from "../Calendar/Calendar";
 import { useParams } from "react-router-dom";
+import {
+  CategoriesTheme,
+  CategoriesThemeText,
+  PopBrowse,
+  PopBrowseBlock,
+  PopBrowseContainer,
+  PopBrowseContent,
+  PopBrowseStatus,
+  PopBrowseSubttl,
+  PopBrowseTopBlock,
+  PopBrowseTtl,
+  StatusTheme,
+  StatusThemes,
+} from "./CardModal.styled";
+import { cardList } from "../../data";
 
 export function CardModal() {
   const { id } = useParams();
+  const card = cardList.find((item) => item.id === Number(id));
+
+  const allStatuses = [
+    "Без статуса",
+    "Нужно сделать",
+    "В работе",
+    "Тестирование",
+    "Готово",
+  ];
+
+  if (!card) return <div>Карточка не найдена</div>;
+
   return (
-    <div className="pop-browse" id="popBrowse">
-      <div className="pop-browse__container">
-        <div className="pop-browse__block">
-          <div className="pop-browse__content">
-            <div className="pop-browse__top-block">
-              <h3 className="pop-browse__ttl">Название задачи {id}</h3>
-              <div className="categories__theme theme-top _orange _active-category">
-                <p className="_orange">Web Design</p>
-              </div>
-            </div>
-            <div className="pop-browse__status status">
-              <p className="status__p subttl">Статус</p>
-              <div className="status__themes">
-                <div className="status__theme _hide">
-                  <p>Без статуса</p>
-                </div>
-                <div className="status__theme _gray">
-                  <p className="_gray">Нужно сделать</p>
-                </div>
-                <div className="status__theme _hide">
-                  <p>В работе</p>
-                </div>
-                <div className="status__theme _hide">
-                  <p>Тестирование</p>
-                </div>
-                <div className="status__theme _hide">
-                  <p>Готово</p>
-                </div>
-              </div>
-            </div>
+    <PopBrowse id="popBrowse">
+      <PopBrowseContainer>
+        <PopBrowseBlock>
+          <PopBrowseContent>
+            <PopBrowseTopBlock>
+              <PopBrowseTtl>Название задачи {id}</PopBrowseTtl>
+              <CategoriesTheme $themeColor={card.theme} active>
+                <CategoriesThemeText $color={card.theme}>
+                  {card.topic}
+                </CategoriesThemeText>
+              </CategoriesTheme>
+            </PopBrowseTopBlock>
+            <PopBrowseStatus>
+              <PopBrowseSubttl>Статус</PopBrowseSubttl>
+              <StatusThemes>
+                {allStatuses.map((status) => (
+                  <StatusTheme
+                    key={status}
+                    $active={card.status === status}
+                    $visible={card.status === status}
+                  >
+                    <p>{status}</p>
+                  </StatusTheme>
+                ))}
+              </StatusThemes>
+            </PopBrowseStatus>
             <div className="pop-browse__wrap">
               <form
                 className="pop-browse__form form-browse"
@@ -93,9 +116,9 @@ export function CardModal() {
                 <a href="#">Закрыть</a>
               </button>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </PopBrowseContent>
+        </PopBrowseBlock>
+      </PopBrowseContainer>
+    </PopBrowse>
   );
 }
