@@ -1,5 +1,5 @@
 import { Calendar } from "../Calendar/Calendar";
-import { useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import {
   BtnBrowseClose,
   BtnBrowseDelete,
@@ -103,15 +103,15 @@ export function CardModal() {
                   <a href="#">Удалить задачу</a>
                 </BtnBrowseDelete>
               </BtnGroup>
-              <BtnBrowseClose>
-                <a href="#">Закрыть</a>
-              </BtnBrowseClose>
+              <Link to="/">
+                <BtnBrowseClose>Закрыть</BtnBrowseClose>
+              </Link>
             </PopBrowseBtnBrowse>
             <PopBrowseBtnEdit>
               <BtnGroup>
-                <BtnEditEdit>
-                  <a href="#">Сохранить</a>
-                </BtnEditEdit>
+                <BtnBrowseClose onClick={() => Navigate("/")}>
+                  Закрыть
+                </BtnBrowseClose>
                 <BtnEditCancel>
                   <a href="#">Отменить</a>
                 </BtnEditCancel>
