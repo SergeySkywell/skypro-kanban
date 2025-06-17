@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link as RouterLink } from "react-router-dom";
 
 export const ContainerSignIn = styled.div`
   display: block;
@@ -127,6 +128,11 @@ export const ModalBtnEnter = styled.button`
   @media screen and (max-width: 375px) {
     height: 40px;
   }
+`;
+
+export const StyledLink = styled(RouterLink)`
+  width: 100%;
+  text-decoration: none;
 `;
 
 export const ModalFormGroup = styled.div`

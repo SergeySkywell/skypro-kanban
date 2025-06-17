@@ -1,3 +1,4 @@
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Wrapper } from "../components/ui/Wrapper.styled";
 import {
   ContainerSignIn,
@@ -8,9 +9,17 @@ import {
   ModalFormLogin,
   ModalInput,
   ModalTtl,
+  StyledLink,
 } from "./LogInPage.styled";
 
-export function LogInPage() {
+export function LogInPage({ setIsAuth }) {
+  const navigate = useNavigate();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setIsAuth(true);
+    navigate("/");
+  };
+
   return (
     <Wrapper>
       <ContainerSignIn>
@@ -32,12 +41,15 @@ export function LogInPage() {
                 id="formpassword"
                 placeholder="Пароль"
               />
-              <ModalBtnEnter id="btnEnter">
-                <a href="../main.html">Войти</a>
-              </ModalBtnEnter>
+              <StyledLink to="/">
+                <ModalBtnEnter id="btnEnter" onClick={handleLogin}>
+                  Войти
+                </ModalBtnEnter>
+              </StyledLink>
+
               <ModalFormGroup>
                 <p>Нужно зарегистрироваться?</p>
-                <a href="signup.html">Регистрируйтесь здесь</a>
+                <Link to="/register">Регистрируйтесь здесь</Link>
               </ModalFormGroup>
             </ModalFormLogin>
           </ModalBlock>

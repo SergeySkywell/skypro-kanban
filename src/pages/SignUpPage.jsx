@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Wrapper } from "../components/ui/Wrapper.styled";
 import {
   ContainerSignUp,
@@ -43,7 +44,7 @@ export function SignUpPage() {
               </ModalBtnSignupEnt>
               <ModalFormGroup>
                 <p>
-                  Уже есть аккаунт? <a href="signin.html">Войдите здесь</a>
+                  Уже есть аккаунт? <Link to="/login">Войдите здесь</Link>
                 </p>
               </ModalFormGroup>
             </ModalFormLogin>
