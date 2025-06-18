@@ -7,6 +7,7 @@ import { NotFoundPage } from "../pages/NotFoundPage";
 import { SignUpPage } from "../pages/SignUpPage";
 import { useState } from "react";
 import PrivateRoute from "./PrivateRoute";
+import { NewCardPage } from "../pages/NewCardPage";
 
 export const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -16,6 +17,7 @@ export const AppRoutes = () => {
       <Route element={<PrivateRoute isAuth={isAuth} />}>
         <Route path="/" element={<MainPage />}>
           <Route path="card/:id" element={<CardPage />} />
+          <Route path="newcard" element={<NewCardPage />} />
         </Route>
         <Route path="exit" element={<LogOutPage />} />
       </Route>

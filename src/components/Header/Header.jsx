@@ -11,6 +11,7 @@ import {
   StyledHeader,
 } from "./Header.styled";
 import { Container } from "../ui/Container.styled";
+import { Link } from "react-router-dom";
 
 export function Header() {
   const [isUserOpen, setIsUserOpen] = useState(false);
@@ -32,9 +33,10 @@ export function Header() {
           </DarkLogo>
 
           <HeaderNav>
-            <HeaderButton id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
-            </HeaderButton>
+            <Link to={`/newcard`}>
+              <HeaderButton id="btnMainNew">Создать новую задачу</HeaderButton>
+            </Link>
+
             <HeaderUser onClick={() => setIsUserOpen((prev) => !prev)}>
               Ivan Ivanov
             </HeaderUser>
