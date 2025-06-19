@@ -13,7 +13,7 @@ import {
 import { Container } from "../ui/Container.styled";
 import { Link } from "react-router-dom";
 
-export function Header() {
+export function Header({ setIsAuth }) {
   const [isUserOpen, setIsUserOpen] = useState(false);
 
   return (
@@ -42,7 +42,7 @@ export function Header() {
             </HeaderUser>
             {isUserOpen && (
               <HeaderPopUserSet id="user-set-target">
-                <PopUser />
+                <PopUser setIsAuth={setIsAuth} />
               </HeaderPopUserSet>
             )}
           </HeaderNav>

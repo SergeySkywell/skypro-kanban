@@ -1,3 +1,4 @@
+import { Link, useNavigate } from "react-router-dom";
 import {
   PopExitBlock,
   PopExitContainer,
@@ -8,7 +9,14 @@ import {
   PopExitYes,
 } from "./LogOutPage.Styled";
 
-export function LogOutPage() {
+export function LogOutPage({ setIsAuth }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setIsAuth(false);
+    navigate("/login");
+  };
+
   return (
     <PopExitStyled id="popExit">
       <PopExitContainer>
@@ -18,11 +26,11 @@ export function LogOutPage() {
           </PopExitTitle>
           <form id="formExit" action="#">
             <PopExitFormGroup>
-              <PopExitYes id="exitYes">
-                <a href="modal/signin.html">Да, выйти</a>{" "}
+              <PopExitYes id="exitYes" onClick={handleLogout}>
+                Да, выйти
               </PopExitYes>
               <PopExitNo id="exitNo">
-                <a href="main.html">Нет, остаться</a>{" "}
+                <Link to="/">Нет, остаться</Link>
               </PopExitNo>
             </PopExitFormGroup>
           </form>

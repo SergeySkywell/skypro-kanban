@@ -15,11 +15,11 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<PrivateRoute isAuth={isAuth} />}>
-        <Route path="/" element={<MainPage />}>
+        <Route path="/" element={<MainPage setIsAuth={setIsAuth} />}>
           <Route path="card/:id" element={<CardPage />} />
           <Route path="newcard" element={<NewCardPage />} />
+          <Route path="exit" element={<LogOutPage setIsAuth={setIsAuth} />} />
         </Route>
-        <Route path="exit" element={<LogOutPage />} />
       </Route>
       <Route path="login" element={<LogInPage setIsAuth={setIsAuth} />} />
       <Route path="register" element={<SignUpPage />} />

@@ -3,10 +3,10 @@ import { Header } from "../components/Header/Header.jsx";
 import { Content } from "../components/Main/Content.jsx";
 import { Wrapper } from "../components/ui/Wrapper.styled.js";
 
-export const MainPage = () => {
+export const MainPage = ({ setIsAuth }) => {
   return (
     <Wrapper>
-      <Header />
+      <Header setIsAuth={setIsAuth} />
       <Content />
       <Outlet />
     </Wrapper>
