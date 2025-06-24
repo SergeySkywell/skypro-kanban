@@ -111,6 +111,7 @@ export const ModalBtnEnter = styled.button`
   font-weight: 500;
   letter-spacing: -0.14px;
   color: #ffffff;
+  text-decoration: none;
 
   a {
     width: 100%;

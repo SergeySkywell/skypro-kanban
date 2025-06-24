@@ -11,13 +11,85 @@ import {
   ModalTtl,
   StyledLink,
 } from "./LogInPage.styled";
+import { useState } from "react";
+import { signIn } from "../services/auth";
 
 export function LogInPage({ setIsAuth }) {
   const navigate = useNavigate();
-  const handleLogin = (e) => {
+
+  // Состояние полей ввода
+
+  const [formData, setFormData] = useState({
+    login: "",
+    password: "",
+  });
+
+  // Состояние ошибок полей ввода
+
+  const [errors, setErrors] = useState({
+    login: false,
+    password: false,
+  });
+
+  // Cостояние текста ошибки, чтобы показать её пользователю
+
+  const [error, setError] = useState("");
+
+  // Функция валидации формы
+
+  const validateForm = () => {
+    const newErrors = { login: false, password: false };
+
+    let isValid = true;
+
+    if (!formData.login.trim()) {
+      newErrors.login = true;
+      setError("Заполните все поля");
+      isValid = false;
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = true;
+      setError("Заполните все поля");
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  // Функция, которая отслеживает в полях изменения и меняет состояние компонента
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    setErrors({ ...errors, [name]: false });
+    setError("");
+  };
+
+  // функция отправки формы
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsAuth(true);
-    navigate("/");
+    if (!validateForm()) {
+      return;
+    }
+    try {
+      const data = await signIn({
+        login: formData.login,
+        password: formData.password,
+      });
+
+      if (data) {
+        setIsAuth(true);
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        navigate("/");
+      }
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -28,24 +100,31 @@ export function LogInPage({ setIsAuth }) {
             <ModalTtl>
               <h2>Вход</h2>
             </ModalTtl>
-            <ModalFormLogin id="formLogIn" action="#">
+            <ModalFormLogin id="formLogIn" action="#" onSubmit={handleSubmit}>
               <ModalInput
+                $error={errors.login}
                 type="text"
                 name="login"
                 id="formlogin"
                 placeholder="Эл. почта"
+                value={formData.login}
+                onChange={handleChange}
+                autoComplete="username"
               />
               <ModalInput
+                $error={errors.password}
                 type="password"
                 name="password"
                 id="formpassword"
                 placeholder="Пароль"
+                value={formData.password}
+                onChange={handleChange}
+                autoComplete="current-password"
               />
-              <StyledLink to="/">
-                <ModalBtnEnter id="btnEnter" onClick={handleLogin}>
-                  Войти
-                </ModalBtnEnter>
-              </StyledLink>
+
+              <ModalBtnEnter id="btnEnter" type="submit">
+                Войти
+              </ModalBtnEnter>
 
               <ModalFormGroup>
                 <p>Нужно зарегистрироваться?</p>

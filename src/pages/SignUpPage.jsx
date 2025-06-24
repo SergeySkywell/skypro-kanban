@@ -25,6 +25,7 @@ export function SignUpPage({ setIsAuth }) {
   });
 
   // Состояние ошибок полей ввода
+
   const [errors, setErrors] = useState({
     name: false,
     login: false,
@@ -32,9 +33,11 @@ export function SignUpPage({ setIsAuth }) {
   });
 
   // Cостояние текста ошибки, чтобы показать её пользователю
+
   const [error, setError] = useState("");
 
-  // функция валидации формы
+  // Функция валидации формы
+
   const validateForm = () => {
     const newErrors = { name: false, login: false, password: false };
 
@@ -79,13 +82,9 @@ export function SignUpPage({ setIsAuth }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
-      // Если у нас форма не прошла валидацию, то дальше не продолжаем
-
-      return;
+      return; // Если у нас форма не прошла валидацию, то дальше не продолжаем
     }
     try {
-      // Чтобы не писать две разных функции, выберем нужный запрос через тернарный оператор
-
       const data = await signUp(formData);
 
       if (data) {
