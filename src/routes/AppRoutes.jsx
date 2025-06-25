@@ -10,7 +10,10 @@ import PrivateRoute from "./PrivateRoute";
 import { NewCardPage } from "../pages/NewCardPage";
 
 export const AppRoutes = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    return !!userInfo;
+  });
 
   return (
     <Routes>

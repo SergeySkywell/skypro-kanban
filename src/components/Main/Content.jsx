@@ -1,7 +1,7 @@
 import { Column } from "./Column";
 import { cardList } from "../../data";
 import { Card } from "./Card";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Container } from "../ui/Container.styled";
 import {
   Loading,
@@ -9,21 +9,35 @@ import {
   MainContent,
   MainStyled,
 } from "../Main/Content.styled";
+import { fetchCards } from "../../services/api";
 
 export function Content() {
-  const noStatus = cardList.filter((card) => card.status === "Без статуса");
-  const toDo = cardList.filter((card) => card.status === "Нужно сделать");
-  const inProgress = cardList.filter((card) => card.status === "В работе");
-  const testing = cardList.filter((card) => card.status === "Тестирование");
-  const done = cardList.filter((card) => card.status === "Готово");
-
   const [isLoading, setIsLoading] = useState(true);
+  const [cards, setCards] = useState([]);
+  const [error, setError] = useState("");
+
+  const getCards = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
+      const data = await fetchCards({ token });
+      if (data?.tasks) setCards(data.tasks);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-  }, []);
+    getCards();
+  }, [getCards]);
+
+  const noStatus = cards.filter((card) => card.status === "Без статуса");
+  const toDo = cards.filter((card) => card.status === "Нужно сделать");
+  const inProgress = cards.filter((card) => card.status === "В работе");
+  const testing = cards.filter((card) => card.status === "Тестирование");
+  const done = cards.filter((card) => card.status === "Готово");
 
   return (
     <>
@@ -33,14 +47,15 @@ export function Content() {
         </MainStyled>
       ) : (
         <MainStyled>
+          {error && <p style={{ color: "red", padding: "10px" }}>{error}</p>}
           <Container>
             <MainBlock>
               <MainContent>
                 <Column title="Без статуса">
                   {noStatus.map((card) => (
                     <Card
-                      key={card.id}
-                      id={card.id}
+                      key={card._id}
+                      id={card._id}
                       title={card.title}
                       category={card.topic}
                       date={card.date}
@@ -52,8 +67,8 @@ export function Content() {
                 <Column title="Нужно сделать">
                   {toDo.map((card) => (
                     <Card
-                      key={card.id}
-                      id={card.id}
+                      key={card._id}
+                      id={card._id}
                       title={card.title}
                       category={card.topic}
                       date={card.date}
@@ -65,8 +80,8 @@ export function Content() {
                 <Column title="В работе">
                   {inProgress.map((card) => (
                     <Card
-                      key={card.id}
-                      id={card.id}
+                      key={card._id}
+                      id={card._id}
                       title={card.title}
                       category={card.topic}
                       date={card.date}
@@ -78,8 +93,8 @@ export function Content() {
                 <Column title="Тестирование">
                   {testing.map((card) => (
                     <Card
-                      key={card.id}
-                      id={card.id}
+                      key={card._id}
+                      id={card._id}
                       title={card.title}
                       category={card.topic}
                       date={card.date}
@@ -91,8 +106,8 @@ export function Content() {
                 <Column title="Готово">
                   {done.map((card) => (
                     <Card
-                      key={card.id}
-                      id={card.id}
+                      key={card._id}
+                      id={card._id}
                       title={card.title}
                       category={card.topic}
                       date={card.date}
