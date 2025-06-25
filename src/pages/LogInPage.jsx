@@ -125,6 +125,7 @@ export function LogInPage({ setIsAuth }) {
               <ModalBtnEnter id="btnEnter" type="submit">
                 Войти
               </ModalBtnEnter>
+              {error && <p style={{ color: "red" }}>{error}</p>}
 
               <ModalFormGroup>
                 <p>Нужно зарегистрироваться?</p>
