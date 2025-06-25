@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Calendar } from "../components/Calendar/Calendar";
 import { PopNewCardCalendar } from "../components/Calendar/Calendar.styled";
 import {
@@ -21,8 +21,41 @@ import {
   PopNewCardWrap,
   Subttl,
 } from "./NewCardPage.styled";
+import { useState } from "react";
+import { createCard } from "../services/api";
 
 export function NewCardPage() {
+  const navigate = useNavigate();
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("Web Design");
+  const [date, setDate] = useState(new Date());
+  const [error, setError] = useState("");
+
+  const handleCreate = async () => {
+    try {
+      if (!title.trim() || !description.trim()) {
+        alert("Заполните все поля");
+        return;
+      }
+
+      const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
+      await createCard({
+        title,
+        description,
+        topic: category,
+        status: "Без статуса",
+        date: date.toISOString(),
+        token,
+      });
+      navigate("/", { state: { refresh: true } });
+    } catch (err) {
+      console.error("Ошибка при создании задачи:", err.message);
+      setError(err.message);
+    }
+  };
+
   return (
     <PopNewCardStyled id="popNewCard">
       <PopNewCardContainer>
@@ -33,49 +66,47 @@ export function NewCardPage() {
               <PopNewCardClose>&#10006;</PopNewCardClose>
             </Link>
             <PopNewCardWrap>
-              <PopNewCardForm id="formNewCard" action="#">
+              <PopNewCardForm id="formNewCard">
                 <FormNewBlock>
                   <Subttl htmlFor="formTitle">Название задачи</Subttl>
                   <FormNewInput
-                    type="text"
-                    name="name"
-                    id="formTitle"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                     placeholder="Введите название задачи..."
-                    autoFocus
                   />
                 </FormNewBlock>
                 <FormNewBlock>
                   <Subttl htmlFor="textArea">Описание задачи</Subttl>
                   <FormNewArea
-                    name="text"
-                    id="textArea"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                     placeholder="Введите описание задачи..."
-                  ></FormNewArea>
+                  />
                 </FormNewBlock>
               </PopNewCardForm>
-              <Calendar />
+              <Calendar selectedDate={date} setSelectedDate={setDate} />
             </PopNewCardWrap>
             <PopNewCardCategories>
               <CategoriesP>Категория</CategoriesP>
               <CategoriesThemes>
-                <CategoriesTheme $themeColor="orange" $active>
-                  <CategoriesThemeText $color="orange">
-                    Web Design
-                  </CategoriesThemeText>
-                </CategoriesTheme>
-                <CategoriesTheme $themeColor="green">
-                  <CategoriesThemeText $color="green">
-                    Research
-                  </CategoriesThemeText>
-                </CategoriesTheme>
-                <CategoriesTheme $themeColor="purple">
-                  <CategoriesThemeText $color="purple">
-                    Copywriting
-                  </CategoriesThemeText>
-                </CategoriesTheme>
+                {["Web Design", "Research", "Copywriting"].map((cat, index) => (
+                  <CategoriesTheme
+                    key={cat}
+                    $themeColor={["orange", "green", "purple"][index]}
+                    $active={category === cat}
+                    onClick={() => setCategory(cat)}
+                  >
+                    <CategoriesThemeText
+                      $color={["orange", "green", "purple"][index]}
+                    >
+                      {cat}
+                    </CategoriesThemeText>
+                  </CategoriesTheme>
+                ))}
               </CategoriesThemes>
             </PopNewCardCategories>
-            <FormNewCreate id="btnCreate">Создать задачу</FormNewCreate>
+            {error && <div style={{ color: "red" }}>{error}</div>}
+            <FormNewCreate onClick={handleCreate}>Создать задачу</FormNewCreate>
           </PopNewCardContent>
         </PopNewCardBlock>
       </PopNewCardContainer>

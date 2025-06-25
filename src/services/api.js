@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API_URL = "https://wedev-api.sky.pro/api/kanban";
 
-
 export async function fetchCards({ token }) {
   try {
     const data = await axios.get(API_URL, {
@@ -13,5 +12,39 @@ export async function fetchCards({ token }) {
     return data.data;
   } catch (error) {
     throw new Error(error.message);
+  }
+}
+
+export async function createCard({
+  title,
+  description,
+  topic,
+  status,
+  date,
+  token,
+}) {
+  try {
+    const response = await axios.post(
+      API_URL,
+      {
+        title,
+        description,
+        topic,
+        status,
+        date,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.error || "Ошибка при создании задачи"
+    );
   }
 }

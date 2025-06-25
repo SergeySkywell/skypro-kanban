@@ -10,6 +10,7 @@ import {
   MainStyled,
 } from "../Main/Content.styled";
 import { fetchCards } from "../../services/api";
+import { useLocation } from "react-router-dom";
 
 export function Content() {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,9 +30,11 @@ export function Content() {
     }
   }, []);
 
+  const location = useLocation();
+
   useEffect(() => {
     getCards();
-  }, [getCards]);
+  }, [getCards, location.state?.refresh]);
 
   const noStatus = cards.filter((card) => card.status === "Без статуса");
   const toDo = cards.filter((card) => card.status === "Нужно сделать");

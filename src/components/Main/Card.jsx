@@ -13,12 +13,26 @@ import {
 } from "./Card.styled";
 
 export function Card({ id, title, category, date, theme }) {
+  const formattedDate = new Date(date).toLocaleDateString("ru-RU", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+
+  const themeByTopic = {
+    "Web Design": "orange",
+    Research: "green",
+    Copywriting: "purple",
+  };
+
+  const actualTheme = themeByTopic[category] || "gray";
+
   return (
     <CardsItem>
       <StyledCard>
         <CardGroup>
-          <CardTheme $themeColor={theme}>
-            <CardThemeText $color={theme}>{category}</CardThemeText>
+          <CardTheme $themeColor={actualTheme}>
+            <CardThemeText $color={actualTheme}>{category}</CardThemeText>
           </CardTheme>
 
           <Link to={`/card/${id}`}>
@@ -62,7 +76,7 @@ export function Card({ id, title, category, date, theme }) {
                 </clipPath>
               </defs>
             </svg>
-            <CardDateText>{date}</CardDateText>
+            <CardDateText>{formattedDate}</CardDateText>
           </CardDate>
         </CardContent>
       </StyledCard>
