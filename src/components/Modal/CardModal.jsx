@@ -1,5 +1,5 @@
 import { Calendar } from "../Calendar/Calendar";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import {
   BtnBrowseClose,
   BtnBrowseDelete,
@@ -31,11 +31,22 @@ import {
   ThemeDown,
   ThemeDownCategoriesSubttl,
 } from "./CardModal.styled";
-import { cardList } from "../../data";
+import { useEffect, useState } from "react";
+import { getCardById } from "../../services/api";
 
 export function CardModal() {
+  const navigate = useNavigate();
+
   const { id } = useParams();
-  const card = cardList.find((item) => item.id === Number(id));
+  const [card, setCard] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const themeByTopic = {
+    "Web Design": "orange",
+    Research: "green",
+    Copywriting: "purple",
+  };
 
   const allStatuses = [
     "Без статуса",
@@ -45,15 +56,33 @@ export function CardModal() {
     "Готово",
   ];
 
+  useEffect(() => {
+    const fetchCard = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
+        const data = await getCardById(id, token);
+        setCard(data.task); // API возвращает { task: { ... } }
+      } catch (err) {
+        setError("Задача не найдена или произошла ошибка");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCard();
+  }, [id]);
+
+  if (loading) return <p>Загрузка...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
+
   return (
     <PopBrowse id="popBrowse">
       <PopBrowseContainer>
         <PopBrowseBlock>
           <PopBrowseContent>
             <PopBrowseTopBlock>
-              <PopBrowseTtl>Название задачи {id}</PopBrowseTtl>
-              <CategoriesTheme $themeColor={card.theme} $active>
-                <CategoriesThemeText $color={card.theme}>
+              <PopBrowseTtl>{card.title}</PopBrowseTtl>
+              <CategoriesTheme $themeColor={themeByTopic[card.topic]} $active>
+                <CategoriesThemeText $color={themeByTopic[card.topic]}>
                   {card.topic}
                 </CategoriesThemeText>
               </CategoriesTheme>
@@ -81,6 +110,7 @@ export function CardModal() {
                     id="textArea01"
                     readOnly
                     placeholder="Введите описание задачи..."
+                    value={card.description}
                   ></FormBrowseArea>
                 </FormBrowseBlock>
               </PopBrowseForm>
@@ -88,8 +118,8 @@ export function CardModal() {
             </PopBrowseWrap>
             <ThemeDown>
               <ThemeDownCategoriesSubttl>Категория</ThemeDownCategoriesSubttl>
-              <CategoriesTheme $themeColor={card.theme} $active>
-                <CategoriesThemeText $color={card.theme}>
+              <CategoriesTheme $themeColor={themeByTopic[card.topic]} $active>
+                <CategoriesThemeText $color={themeByTopic[card.topic]}>
                   {card.topic}
                 </CategoriesThemeText>
               </CategoriesTheme>
@@ -109,7 +139,7 @@ export function CardModal() {
             </PopBrowseBtnBrowse>
             <PopBrowseBtnEdit>
               <BtnGroup>
-                <BtnBrowseClose onClick={() => Navigate("/")}>
+                <BtnBrowseClose onClick={() => navigate("/")}>
                   Закрыть
                 </BtnBrowseClose>
                 <BtnEditCancel>

@@ -48,3 +48,15 @@ export async function createCard({
     );
   }
 }
+
+export async function getCardById(id, token) {
+  const response = await axios.get(
+    `https://wedev-api.sky.pro/api/kanban/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+}
