@@ -60,3 +60,15 @@ export async function getCardById(id, token) {
   );
   return response.data;
 }
+
+export async function deleteCardById(id, token) {
+  const response = await axios.delete(
+    `https://wedev-api.sky.pro/api/kanban/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+}

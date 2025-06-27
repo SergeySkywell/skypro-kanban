@@ -7,7 +7,6 @@ import {
   BtnEditCancel,
   BtnEditClose,
   BtnEditDelete,
-  BtnEditEdit,
   BtnGroup,
   CategoriesTheme,
   CategoriesThemeText,
@@ -32,7 +31,7 @@ import {
   ThemeDownCategoriesSubttl,
 } from "./CardModal.styled";
 import { useEffect, useState } from "react";
-import { getCardById } from "../../services/api";
+import { deleteCardById, getCardById } from "../../services/api";
 
 export function CardModal() {
   const navigate = useNavigate();
@@ -70,6 +69,16 @@ export function CardModal() {
     };
     fetchCard();
   }, [id]);
+
+  const handleDelete = async () => {
+    try {
+      const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
+      await deleteCardById(id, token);
+      navigate("/", { state: { refresh: true } });
+    } catch (err) {
+      console.error("Ошибка при удалении: ", err.message);
+    }
+  };
 
   if (loading) return <p>Загрузка...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
@@ -129,8 +138,8 @@ export function CardModal() {
                 <BtnBrowseEdit>
                   <a href="#">Редактировать задачу</a>
                 </BtnBrowseEdit>
-                <BtnBrowseDelete>
-                  <a href="#">Удалить задачу</a>
+                <BtnBrowseDelete onClick={handleDelete}>
+                  Удалить задачу
                 </BtnBrowseDelete>
               </BtnGroup>
               <Link to="/">
@@ -145,8 +154,8 @@ export function CardModal() {
                 <BtnEditCancel>
                   <a href="#">Отменить</a>
                 </BtnEditCancel>
-                <BtnEditDelete id="btnDelete">
-                  <a href="#">Удалить задачу</a>
+                <BtnEditDelete onClick={handleDelete}>
+                  Удалить задачу
                 </BtnEditDelete>
               </BtnGroup>
               <BtnEditClose>
