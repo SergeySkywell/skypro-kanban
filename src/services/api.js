@@ -72,3 +72,17 @@ export async function deleteCardById(id, token) {
   );
   return response.data;
 }
+
+export async function updateCardById(id, body, token) {
+  const response = await axios.put(
+    `https://wedev-api.sky.pro/api/kanban/${id}`,
+    body,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "",
+      },
+    }
+  );
+  return response.data;
+}

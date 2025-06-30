@@ -7,6 +7,7 @@ import {
   BtnEditCancel,
   BtnEditClose,
   BtnEditDelete,
+  BtnEditEdit,
   BtnGroup,
   CategoriesTheme,
   CategoriesThemeText,
@@ -31,7 +32,11 @@ import {
   ThemeDownCategoriesSubttl,
 } from "./CardModal.styled";
 import { useEffect, useState } from "react";
-import { deleteCardById, getCardById } from "../../services/api";
+import {
+  deleteCardById,
+  getCardById,
+  updateCardById,
+} from "../../services/api";
 
 export function CardModal() {
   const navigate = useNavigate();
@@ -40,6 +45,12 @@ export function CardModal() {
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("");
+  const [topic, setTopic] = useState("");
 
   const themeByTopic = {
     "Web Design": "orange",
@@ -70,6 +81,15 @@ export function CardModal() {
     fetchCard();
   }, [id]);
 
+  useEffect(() => {
+    if (card) {
+      setTitle(card.title);
+      setDescription(card.description);
+      setStatus(card.status);
+      setTopic(card.topic);
+    }
+  }, [card]);
+
   const handleDelete = async () => {
     try {
       const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
@@ -77,6 +97,25 @@ export function CardModal() {
       navigate("/", { state: { refresh: true } });
     } catch (err) {
       console.error("Ошибка при удалении: ", err.message);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
+      console.log({ title, description, status, topic, date: card.date });
+      await updateCardById(
+        id,
+        { title, description, status, topic, date: card.date },
+        token
+      );
+      setIsEditing(false);
+      navigate("/", { state: { refresh: true } });
+    } catch (err) {
+      console.error(
+        "Ошибка при обновлении:",
+        err.response?.data || err.message
+      );
     }
   };
 
@@ -89,7 +128,20 @@ export function CardModal() {
         <PopBrowseBlock>
           <PopBrowseContent>
             <PopBrowseTopBlock>
-              <PopBrowseTtl>{card.title}</PopBrowseTtl>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                />
+              ) : (
+                <PopBrowseTtl>{title}</PopBrowseTtl>
+              )}
               <CategoriesTheme $themeColor={themeByTopic[card.topic]} $active>
                 <CategoriesThemeText $color={themeByTopic[card.topic]}>
                   {card.topic}
@@ -97,18 +149,30 @@ export function CardModal() {
               </CategoriesTheme>
             </PopBrowseTopBlock>
             <PopBrowseStatus>
-              <PopBrowseSubttl>Статус</PopBrowseSubttl>
-              <StatusThemes>
-                {allStatuses.map((status) => (
-                  <StatusTheme
-                    key={status}
-                    $active={card.status === status}
-                    $visible={card.status === status}
-                  >
-                    <p>{status}</p>
-                  </StatusTheme>
-                ))}
-              </StatusThemes>
+              {isEditing ? (
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                >
+                  {allStatuses.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <StatusThemes>
+                  {allStatuses.map((s) => (
+                    <StatusTheme
+                      key={s}
+                      $active={card.status === s}
+                      $visible={card.status === s}
+                    >
+                      <p>{s}</p>
+                    </StatusTheme>
+                  ))}
+                </StatusThemes>
+              )}
             </PopBrowseStatus>
             <PopBrowseWrap>
               <PopBrowseForm id="formBrowseCard" action="#">
@@ -117,9 +181,10 @@ export function CardModal() {
                   <FormBrowseArea
                     name="text"
                     id="textArea01"
-                    readOnly
+                    readOnly={!isEditing}
                     placeholder="Введите описание задачи..."
-                    value={card.description}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                   ></FormBrowseArea>
                 </FormBrowseBlock>
               </PopBrowseForm>
@@ -127,17 +192,39 @@ export function CardModal() {
             </PopBrowseWrap>
             <ThemeDown>
               <ThemeDownCategoriesSubttl>Категория</ThemeDownCategoriesSubttl>
-              <CategoriesTheme $themeColor={themeByTopic[card.topic]} $active>
-                <CategoriesThemeText $color={themeByTopic[card.topic]}>
-                  {card.topic}
-                </CategoriesThemeText>
-              </CategoriesTheme>
+              {isEditing ? (
+                <select
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                >
+                  {Object.keys(themeByTopic).map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <CategoriesTheme $themeColor={themeByTopic[topic]} $active>
+                  <CategoriesThemeText $color={themeByTopic[topic]}>
+                    {topic}
+                  </CategoriesThemeText>
+                </CategoriesTheme>
+              )}
             </ThemeDown>
             <PopBrowseBtnBrowse>
               <BtnGroup>
-                <BtnBrowseEdit>
-                  <a href="#">Редактировать задачу</a>
-                </BtnBrowseEdit>
+                {isEditing ? (
+                  <>
+                    <BtnEditEdit onClick={handleSave}>Сохранить</BtnEditEdit>
+                    <BtnEditCancel onClick={() => setIsEditing(false)}>
+                      Отменить
+                    </BtnEditCancel>
+                  </>
+                ) : (
+                  <BtnBrowseEdit onClick={() => setIsEditing(true)}>
+                    Редактировать
+                  </BtnBrowseEdit>
+                )}
                 <BtnBrowseDelete onClick={handleDelete}>
                   Удалить задачу
                 </BtnBrowseDelete>
@@ -146,22 +233,6 @@ export function CardModal() {
                 <BtnBrowseClose>Закрыть</BtnBrowseClose>
               </Link>
             </PopBrowseBtnBrowse>
-            <PopBrowseBtnEdit>
-              <BtnGroup>
-                <BtnBrowseClose onClick={() => navigate("/")}>
-                  Закрыть
-                </BtnBrowseClose>
-                <BtnEditCancel>
-                  <a href="#">Отменить</a>
-                </BtnEditCancel>
-                <BtnEditDelete onClick={handleDelete}>
-                  Удалить задачу
-                </BtnEditDelete>
-              </BtnGroup>
-              <BtnEditClose>
-                <a href="#">Закрыть</a>
-              </BtnEditClose>
-            </PopBrowseBtnEdit>
           </PopBrowseContent>
         </PopBrowseBlock>
       </PopBrowseContainer>
