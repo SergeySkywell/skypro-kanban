@@ -16,6 +16,9 @@ import { Link } from "react-router-dom";
 export function Header({ setIsAuth }) {
   const [isUserOpen, setIsUserOpen] = useState(false);
 
+  const userName =
+    JSON.parse(localStorage.getItem("userInfo"))?.name || "Пользователь";
+
   return (
     <StyledHeader>
       <Container>
@@ -38,7 +41,7 @@ export function Header({ setIsAuth }) {
             </Link>
 
             <HeaderUser onClick={() => setIsUserOpen((prev) => !prev)}>
-              Ivan Ivanov
+              {userName}
             </HeaderUser>
             {isUserOpen && (
               <HeaderPopUserSet id="user-set-target">

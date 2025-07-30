@@ -39,24 +39,29 @@ import {
 } from "../../services/api";
 
 export function CardModal() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Хук навигации
 
-  const { id } = useParams();
-  const [card, setCard] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
+  const { id } = useParams(); // Хук, который помогает получить параметры из URL
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("");
-  const [topic, setTopic] = useState("");
+  const [card, setCard] = useState(null); // Состояние карточки
+  const [loading, setLoading] = useState(true); // Состояние загрузки
+  const [error, setError] = useState(""); // Состояние ошибки
+  const [isEditing, setIsEditing] = useState(false); // Состояние редактирования
+
+  const [title, setTitle] = useState(""); // Состояние заголовка
+  const [description, setDescription] = useState(""); // Состояние описания
+  const [status, setStatus] = useState(""); // Состояние статуса
+  const [topic, setTopic] = useState(""); // Состояние темы
+
+  // Массив, который указывает на цвет в зависимости от темы
 
   const themeByTopic = {
     "Web Design": "orange",
     Research: "green",
     Copywriting: "purple",
   };
+
+  // Массив, который содержит все доступные статусы
 
   const allStatuses = [
     "Без статуса",
@@ -66,12 +71,14 @@ export function CardModal() {
     "Готово",
   ];
 
-  useEffect(() => {
-    const fetchCard = async () => {
+  // Получаем содержимое карточки при загрузке страницы 
+
+  useEffect(() => { // Хук
+    const fetchCard = async () => { // Асинхронная функция получения карточки
       try {
-        const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
+        const token = JSON.parse(localStorage.getItem("userInfo"))?.token; 
         const data = await getCardById(id, token);
-        setCard(data.task); // API возвращает { task: { ... } }
+        setCard(data.task);
       } catch (err) {
         setError("Задача не найдена или произошла ошибка");
       } finally {
