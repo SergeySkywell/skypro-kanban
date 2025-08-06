@@ -8,12 +8,15 @@ import {
   PopExitTitle,
   PopExitYes,
 } from "./LogOutPage.Styled";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-export function LogOutPage({ setIsAuth }) {
+export function LogOutPage() {
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
 
   const handleLogout = () => {
-    setIsAuth(false);
+    logout();
     navigate("/login");
   };
 

@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Wrapper } from "../components/ui/Wrapper.styled";
 import {
   ContainerSignIn,
@@ -9,13 +9,14 @@ import {
   ModalFormLogin,
   ModalInput,
   ModalTtl,
-  StyledLink,
 } from "./LogInPage.styled";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { signIn } from "../services/auth";
+import { AuthContext } from "../context/AuthContext";
 
-export function LogInPage({ setIsAuth }) {
+export function LogInPage() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   // Состояние полей ввода
 
@@ -73,20 +74,15 @@ export function LogInPage({ setIsAuth }) {
   // функция отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
+
     try {
-      const data = await signIn({
+      await login({
         login: formData.login,
         password: formData.password,
       });
 
-      if (data) {
-        setIsAuth(true);
-        localStorage.setItem("userInfo", JSON.stringify(data));
-        navigate("/");
-      }
+      navigate("/");
     } catch (err) {
       setError(err.message);
     }
