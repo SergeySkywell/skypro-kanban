@@ -23,6 +23,9 @@ import {
 } from "./NewCardPage.styled";
 import { useState } from "react";
 import { createCard } from "../services/api";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { TaskContext } from "../context/TaskContext";
 
 export function NewCardPage() {
   const navigate = useNavigate();
@@ -32,6 +35,8 @@ export function NewCardPage() {
   const [category, setCategory] = useState("Web Design");
   const [date, setDate] = useState(new Date());
   const [error, setError] = useState("");
+  const { user } = useContext(AuthContext);
+  const { addTask } = useContext(TaskContext);
 
   const handleCreate = async () => {
     try {
@@ -40,16 +45,17 @@ export function NewCardPage() {
         return;
       }
 
-      const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
-      await createCard({
+      const newTask = await createCard({
         title,
         description,
         topic: category,
         status: "Без статуса",
         date: date.toISOString(),
-        token,
+        token: user?.token,
       });
-      navigate("/", { state: { refresh: true } });
+
+      addTask(newTask);
+      navigate("/");
     } catch (err) {
       console.error("Ошибка при создании задачи:", err.message);
       setError(err.message);

@@ -1,11 +1,14 @@
 import "./App.css";
 import { AuthProvider } from "./context/AuthContext";
+import { TaskProvider } from "./context/TaskContext";
 import { AppRoutes } from "./routes/AppRoutes";
 
 function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <TaskProvider>
+        <AppRoutes />
+      </TaskProvider>
     </AuthProvider>
   );
 }

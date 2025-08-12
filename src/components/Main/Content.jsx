@@ -1,7 +1,8 @@
+import { useContext } from "react";
+import { useLocation } from "react-router-dom";
+import { TaskContext } from "../../context/TaskContext";
 import { Column } from "./Column";
-import { cardList } from "../../data";
 import { Card } from "./Card";
-import { useState, useEffect, useCallback } from "react";
 import { Container } from "../ui/Container.styled";
 import {
   Loading,
@@ -9,38 +10,21 @@ import {
   MainContent,
   MainStyled,
 } from "../Main/Content.styled";
-import { fetchCards } from "../../services/api";
-import { useLocation } from "react-router-dom";
 
 export function Content() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [cards, setCards] = useState([]);
-  const [error, setError] = useState("");
-
-  const getCards = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
-      const data = await fetchCards({ token });
-      if (data?.tasks) setCards(data.tasks);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
+  const { tasks, isLoading, error, getTasks } = useContext(TaskContext);
   const location = useLocation();
 
-  useEffect(() => {
-    getCards();
-  }, [getCards, location.state?.refresh]);
+  if (location.state?.refresh) {
+    getTasks();
+    location.state.refresh = false;
+  }
 
-  const noStatus = cards.filter((card) => card.status === "Без статуса");
-  const toDo = cards.filter((card) => card.status === "Нужно сделать");
-  const inProgress = cards.filter((card) => card.status === "В работе");
-  const testing = cards.filter((card) => card.status === "Тестирование");
-  const done = cards.filter((card) => card.status === "Готово");
+  const noStatus = tasks.filter((card) => card.status === "Без статуса");
+  const toDo = tasks.filter((card) => card.status === "Нужно сделать");
+  const inProgress = tasks.filter((card) => card.status === "В работе");
+  const testing = tasks.filter((card) => card.status === "Тестирование");
+  const done = tasks.filter((card) => card.status === "Готово");
 
   return (
     <>
@@ -56,66 +40,31 @@ export function Content() {
               <MainContent>
                 <Column title="Без статуса">
                   {noStatus.map((card) => (
-                    <Card
-                      key={card._id}
-                      id={card._id}
-                      title={card.title}
-                      category={card.topic}
-                      date={card.date}
-                      theme={card.theme}
-                    />
+                    <Card key={card._id} {...card} />
                   ))}
                 </Column>
 
                 <Column title="Нужно сделать">
                   {toDo.map((card) => (
-                    <Card
-                      key={card._id}
-                      id={card._id}
-                      title={card.title}
-                      category={card.topic}
-                      date={card.date}
-                      theme={card.theme}
-                    />
+                    <Card key={card._id} {...card} />
                   ))}
                 </Column>
 
                 <Column title="В работе">
                   {inProgress.map((card) => (
-                    <Card
-                      key={card._id}
-                      id={card._id}
-                      title={card.title}
-                      category={card.topic}
-                      date={card.date}
-                      theme={card.theme}
-                    />
+                    <Card key={card._id} {...card} />
                   ))}
                 </Column>
 
                 <Column title="Тестирование">
                   {testing.map((card) => (
-                    <Card
-                      key={card._id}
-                      id={card._id}
-                      title={card.title}
-                      category={card.topic}
-                      date={card.date}
-                      theme={card.theme}
-                    />
+                    <Card key={card._id} {...card} />
                   ))}
                 </Column>
 
                 <Column title="Готово">
                   {done.map((card) => (
-                    <Card
-                      key={card._id}
-                      id={card._id}
-                      title={card.title}
-                      category={card.topic}
-                      date={card.date}
-                      theme={card.theme}
-                    />
+                    <Card key={card._id} {...card} />
                   ))}
                 </Column>
               </MainContent>
