@@ -37,9 +37,15 @@ import {
   getCardById,
   updateCardById,
 } from "../../services/api";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { TaskContext } from "../../context/TaskContext";
 
 export function CardModal() {
   const navigate = useNavigate(); // Хук навигации
+
+  const { user } = useContext(AuthContext);
+  const { deleteTask, updateTask } = useContext(TaskContext);
 
   const { id } = useParams(); // Хук, который помогает получить параметры из URL
 
@@ -71,12 +77,14 @@ export function CardModal() {
     "Готово",
   ];
 
-  // Получаем содержимое карточки при загрузке страницы 
+  // Получаем содержимое карточки при загрузке страницы
 
-  useEffect(() => { // Хук
-    const fetchCard = async () => { // Асинхронная функция получения карточки
+  useEffect(() => {
+    // Хук
+    const fetchCard = async () => {
+      // Асинхронная функция получения карточки
       try {
-        const token = JSON.parse(localStorage.getItem("userInfo"))?.token; 
+        const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
         const data = await getCardById(id, token);
         setCard(data.task);
       } catch (err) {
@@ -99,9 +107,9 @@ export function CardModal() {
 
   const handleDelete = async () => {
     try {
-      const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
-      await deleteCardById(id, token);
-      navigate("/", { state: { refresh: true } });
+      await deleteCardById(id, user?.token);
+      deleteTask(id);
+      navigate("/");
     } catch (err) {
       console.error("Ошибка при удалении: ", err.message);
     }
@@ -109,15 +117,14 @@ export function CardModal() {
 
   const handleSave = async () => {
     try {
-      const token = JSON.parse(localStorage.getItem("userInfo"))?.token;
-      console.log({ title, description, status, topic, date: card.date });
-      await updateCardById(
+      const updated = await updateCardById(
         id,
         { title, description, status, topic, date: card.date },
-        token
+        user?.token
       );
+      updateTask(updated.task);
       setIsEditing(false);
-      navigate("/", { state: { refresh: true } });
+      navigate("/");
     } catch (err) {
       console.error(
         "Ошибка при обновлении:",
