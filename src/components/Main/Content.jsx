@@ -26,6 +26,12 @@ export function Content() {
   const testing = tasks.filter((card) => card.status === "Тестирование");
   const done = tasks.filter((card) => card.status === "Готово");
 
+  const themeByTopic = {
+    "Web Design": "orange",
+    Research: "green",
+    Copywriting: "purple",
+  };
+
   return (
     <>
       {isLoading ? (
@@ -40,31 +46,66 @@ export function Content() {
               <MainContent>
                 <Column title="Без статуса">
                   {noStatus.map((card) => (
-                    <Card key={card._id} {...card} />
+                    <Card
+                      key={card._id}
+                      id={card._id}
+                      title={card.title}
+                      category={card.topic}
+                      date={card.date}
+                      theme={themeByTopic[card.topic]}
+                    />
                   ))}
                 </Column>
 
                 <Column title="Нужно сделать">
                   {toDo.map((card) => (
-                    <Card key={card._id} {...card} />
+                    <Card
+                      key={card._id}
+                      id={card._id}
+                      title={card.title}
+                      category={card.topic}
+                      date={card.date}
+                      theme={themeByTopic[card.topic]}
+                    />
                   ))}
                 </Column>
 
                 <Column title="В работе">
                   {inProgress.map((card) => (
-                    <Card key={card._id} {...card} />
+                    <Card
+                      key={card._id}
+                      id={card._id}
+                      title={card.title}
+                      category={card.topic}
+                      date={card.date}
+                      theme={themeByTopic[card.topic]}
+                    />
                   ))}
                 </Column>
 
                 <Column title="Тестирование">
                   {testing.map((card) => (
-                    <Card key={card._id} {...card} />
+                    <Card
+                      key={card._id}
+                      id={card._id}
+                      title={card.title}
+                      category={card.topic}
+                      date={card.date}
+                      theme={themeByTopic[card.topic]}
+                    />
                   ))}
                 </Column>
 
                 <Column title="Готово">
                   {done.map((card) => (
-                    <Card key={card._id} {...card} />
+                    <Card
+                      key={card._id}
+                      id={card._id}
+                      title={card.title}
+                      category={card.topic}
+                      date={card.date}
+                      theme={themeByTopic[card.topic]}
+                    />
                   ))}
                 </Column>
               </MainContent>
